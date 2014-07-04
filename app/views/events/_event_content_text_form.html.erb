@@ -1,0 +1,74 @@
+<div class="content_row">
+	<%= form_for content_text, :as => 'content', :remote => true do |f| -%>
+		<%= f.hidden_field :id, :class => "content_id_for_ancestry" -%>
+		<%= f.hidden_field :parent_id, :class => "content_parent_id" -%>
+		<%= image_tag('/assets/text_logo.png', :class => 'content_logo') -%>
+		<%= link_to image_tag('/assets/red_close_button.png', :class => 'remove_content_button'), content_text, method: :delete, :remote => true -%>
+		<div class="content_line_bg">
+			<div class="content_left">
+				<%= f.collection_select :condition, Probability::CONDITIONS, :to_s, :to_s, {:include_blank => true }, :class => "content_condition" -%>
+				<div class="content_clause_holder">
+					<%- unless content_text.condition.blank? -%>				
+						<div class="content_clause">
+							<%= f.fields_for :tool1 do |ff| -%>
+								<%- if !ff.object.pre_tool_id.nil? -%>
+									<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('content_text', ff.object, 'pretool', content_text.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_text', ff.object, 'tool', content_text.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- else -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_text', ff.object, 'tool', content_text.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- end -%>
+								<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+									<%= ff.fields_for :chosen_parameters do |fff| -%>
+										<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+											<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "content_dropdown"}) -%>
+										<%- else -%>
+											<%= fff.text_field :custom_value, {:class => "content_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+										<%- end -%>
+									<%- end -%>
+								<%- end -%>
+							<%- end -%>
+							<%- unless content_text.tool1.tool && content_text.tool1.tool.booleanreturn -%>
+								<%= f.collection_select :equality1, Probability::EQUALITY_MARKERS_WITH_RANGE, :to_s, :to_s, {:include_blank => true }, :class => "content_dropdown" -%>
+								<%- if content_text.equality1 != 'range' -%>
+									<%= f.text_field :value1, :class => "content_text_field", :data => { :oldvalue => content_text.value1 } -%>
+								<%- else -%>
+									<%= f.text_field :value1, :class => "content_text_field", :title => '>', :data => { :oldvalue => content_text.value1 } -%>-<%= f.text_field :rangevalue, :class => "content_text_field", :title => '<=', :data => { :oldvalue => content_text.rangevalue } -%>
+								<%- end -%>
+							<%- end -%>
+							<%- if content_text.equality1 != 'range' -%>
+									<%= f.collection_select :andor, Probability::ANDOR, :to_s, :to_s, {:include_blank => true }, :class => "content_andor" -%>
+							<%- end -%>
+						</div>
+					<%- end -%>
+					<% unless content_text.andor.blank? %>
+						<div class="content_clause content_clause_second">
+							<%= f.fields_for :tool2 do |ff| %>
+								<%- if !ff.object.pre_tool_id.nil? -%>
+									<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('content_text', ff.object, 'pretool', content_text.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_text', ff.object, 'tool', content_text.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- else -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_text', ff.object, 'tool', content_text.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- end -%>
+								<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+									<%= ff.fields_for :chosen_parameters do |fff| -%>
+										<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+											<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "content_dropdown"}) -%>
+										<%- else -%>
+											<%= fff.text_field :custom_value, {:class => "content_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+										<%- end -%>
+									<%- end -%>
+								<%- end -%>
+							<% end %>
+							<%- unless content_text.tool2.tool && content_text.tool2.tool.booleanreturn -%>
+								<%= f.collection_select :equality2, Probability::EQUALITY_MARKERS, :to_s, :to_s, {:include_blank => true }, :class => "content_dropdown" %>
+								<%= f.text_field :value2, :class => "content_text_field", :data => { :oldvalue => content_text.value2 } %>
+							<%- end -%>
+						</div>
+					<% end %>
+				</div>
+			</div>	
+			<div class="content_right"><span class="content_right_hidden"><%= link_to image_tag('/assets/choice_add_button.png', :class => 'content_add_sibling_button add_sibling_choice'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentChoice', :parent_id => content_text.parent.id } }, :method => 'post', :remote => true %><%= link_to image_tag('/assets/text_add_button.png', :class => 'content_add_sibling_button add_sibling_text'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentText', :parent_id => content_text.parent.id } }, :method => 'post', :remote => true %></span></div>
+			<div class='content_textareawrapper'><%= f.text_area :text, :rows => 1, :size => '20x1', :class => 'content_text_text content_text', :data => { :oldvalue => content_text.text } %></div>
+		</div>
+	<% end %>
+</div>

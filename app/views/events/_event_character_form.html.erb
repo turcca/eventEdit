@@ -1,0 +1,20 @@
+<span id="character_fields">
+	<%= f.fields_for :character_tool do |ff| %>
+		<% if !@event.character_tool.pre_tool_id.nil? %>
+			<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('character', ff.object, 'pretool', @event), {:include_blank => 'Choose tool' }, {:class => "character_dropdown"}) %>
+			<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('character', ff.object, 'tool', @event), {:include_blank => 'Choose tool' }, {:class => "character_dropdown"}) %>
+		<% else %>
+			<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('character', ff.object, 'tool', @event), {:include_blank => 'Choose tool' }, {:class => "character_dropdown"}) %>
+		<% end %>
+		<% unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? %>
+			<%= ff.fields_for :chosen_parameters do |fff| %>
+				<% if fff.object.parameter.parameter_type.is_custom_type %>
+					<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "character_dropdown"}) %>
+				<% else %>
+					<%= fff.text_field :custom_value, {:class => "character_text_field", :data => { :oldvalue => fff.object.custom_value }} %>
+				<% end %>
+			<% end %>
+		<% end %>
+	<% end %>
+</span>
+

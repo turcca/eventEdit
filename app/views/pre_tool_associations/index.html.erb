@@ -1,0 +1,29 @@
+<h1>Listing pre_tool_associations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pre tool</th>
+      <th>Tool</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pre_tool_associations.each do |pre_tool_association| %>
+      <tr>
+        <td><%= pre_tool_association.pre_tool_id %></td>
+        <td><%= pre_tool_association.tool_id %></td>
+        <td><%= link_to 'Show', pre_tool_association %></td>
+        <td><%= link_to 'Edit', edit_pre_tool_association_path(pre_tool_association) %></td>
+        <td><%= link_to 'Destroy', pre_tool_association, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Pre tool association', new_pre_tool_association_path %>

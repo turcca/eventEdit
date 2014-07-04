@@ -1,0 +1,29 @@
+<h1>Listing chosen_parameters</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Chosen tool</th>
+      <th>Parameter value</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chosen_parameters.each do |chosen_parameter| %>
+      <tr>
+        <td><%= chosen_parameter.chosen_tool_id %></td>
+        <td><%= chosen_parameter.parameter_value_id %></td>
+        <td><%= link_to 'Show', chosen_parameter %></td>
+        <td><%= link_to 'Edit', edit_chosen_parameter_path(chosen_parameter) %></td>
+        <td><%= link_to 'Destroy', chosen_parameter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Chosen parameter', new_chosen_parameter_path %>

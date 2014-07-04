@@ -1,0 +1,39 @@
+<h1>Listing advice_contents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Condition</th>
+      <th>Tool</th>
+      <th>Equality</th>
+      <th>Value</th>
+      <th>And</th>
+      <th>Text</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @advice_contents.each do |advice_content| %>
+      <tr>
+        <td><%= advice_content.type %></td>
+        <td><%= advice_content.condition %></td>
+        <td><%= advice_content.tool_id %></td>
+        <td><%= advice_content.equality %></td>
+        <td><%= advice_content.value %></td>
+        <td><%= advice_content.and %></td>
+        <td><%= advice_content.text %></td>
+        <td><%= link_to 'Show', advice_content %></td>
+        <td><%= link_to 'Edit', edit_advice_content_path(advice_content) %></td>
+        <td><%= link_to 'Destroy', advice_content, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Advice content', new_advice_content_path %>

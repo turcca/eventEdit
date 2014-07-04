@@ -1,0 +1,29 @@
+<h1>Listing parameters</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Parameter type</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @parameters.each do |parameter| %>
+      <tr>
+        <td><%= parameter.tool_id %></td>
+        <td><%= parameter.parameter_type_id %></td>
+        <td><%= link_to 'Show', parameter %></td>
+        <td><%= link_to 'Edit', edit_parameter_path(parameter) %></td>
+        <td><%= link_to 'Destroy', parameter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Parameter', new_parameter_path %>

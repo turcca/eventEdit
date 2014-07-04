@@ -1,0 +1,34 @@
+$('input#content_id').each(function() {
+	if ($(this).val() === '<%= @id %>')
+	{
+		var $branch = $(this).closest('.content_branch');
+		$branch.stop().fadeOut(200);
+		setTimeout(function() {
+			$branch.remove();
+		}, 200);
+	}
+});
+
+<% if @content.type == 'ContentChoice' %>
+  <% if @content.sibling_choices_after_this.count == 0 %>
+  	<% if @content.sibling_choices_before_this.any? %>
+    	$newhtml.prev().removeClass('content_branch_choice', 200);
+    <% end %>
+  <% end %>
+  
+  var advicehtml = "<%= escape_javascript(render :partial => '/events/event_advice_block' ) %>";
+  var $advicehtml = $(advicehtml);
+  $advicehtml.find('.advice_dropdown, .advice_text_field, .advice_text').each(function() {
+	var $field = $(this);
+	if ($field.val() == '')
+   	{
+    	$field.css('background-color', '#FFCCCC');
+    }
+  });
+  $('#event_advice_block').replaceWith($advicehtml);
+<% end %>
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

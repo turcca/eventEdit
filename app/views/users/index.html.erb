@@ -1,0 +1,53 @@
+<% if notice %>
+	<p id="notice"><%= notice %></p>
+<% end %>
+
+<h1>Listing users</h1>
+
+<table class="admintable">
+  <thead>
+    <tr>
+	  <th>Email</th>
+	  <th>Last sign in</th>
+	  <th>Current sign in</th>
+      <th>Approved</th>
+      <th>Admin</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.last_sign_in_at %></td>
+        <td><%= user.current_sign_in_at %></td>
+        <td>
+        	<% if user.approved %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if user.admin %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<%= link_to 'Edit', edit_user_path(user) %>
+        </td>
+        <td>
+        	<%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Event_map', events_path %>

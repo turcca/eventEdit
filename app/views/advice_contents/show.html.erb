@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @advice_content.type %>
+</p>
+
+<p>
+  <strong>Condition:</strong>
+  <%= @advice_content.condition %>
+</p>
+
+<p>
+  <strong>Tool:</strong>
+  <%= @advice_content.tool_id %>
+</p>
+
+<p>
+  <strong>Equality:</strong>
+  <%= @advice_content.equality %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @advice_content.value %>
+</p>
+
+<p>
+  <strong>And:</strong>
+  <%= @advice_content.and %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @advice_content.text %>
+</p>
+
+<%= link_to 'Edit', edit_advice_content_path(@advice_content) %> |
+<%= link_to 'Back', advice_contents_path %>

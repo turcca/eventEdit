@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Editor</title>
+  <%= include_gon %>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application", "overlay" %>
+  <%= yield(:js) %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<div id='overlay'>
+		<p class='overlay_text'>
+			You cannot use these pages without javascript enabled.
+		</p>
+	</div>
+
+	<%= yield %>
+
+</body>
+</html>

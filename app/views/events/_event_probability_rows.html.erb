@@ -1,0 +1,11 @@
+<% firstrow = true %>
+<% @event.probabilities.each do |probability| %>
+	<% if firstrow %>
+		<div class="row row_first">
+		<% firstrow = false %>
+	<% else %>
+		<div class="row">
+	<% end %>	
+			<%= render :partial => '/events/event_probability_form', :locals => { :probability => probability } %>
+		</div>
+<% end %>

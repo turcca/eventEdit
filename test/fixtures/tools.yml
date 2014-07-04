@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  tooltype: MyString
+  character: false
+  probability: false
+  content_condition: false
+  content_effect: false
+  pre_tool: false
+
+two:
+  name: MyString
+  tooltype: MyString
+  character: false
+  probability: false
+  content_condition: false
+  content_effect: false
+  pre_tool: false

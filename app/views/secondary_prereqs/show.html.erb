@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Event:</strong>
+  <%= @secondary_prereq.event_id %>
+</p>
+
+<p>
+  <strong>Prereq:</strong>
+  <%= @secondary_prereq.prereq_id %>
+</p>
+
+<%= link_to 'Edit', edit_secondary_prereq_path(@secondary_prereq) %> |
+<%= link_to 'Back', secondary_prereqs_path %>

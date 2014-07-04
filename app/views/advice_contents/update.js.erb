@@ -1,0 +1,30 @@
+<% if @advice_content.type == 'AdviceContentAdvice' %>
+	var newhtml = "<%= escape_javascript(render(:partial => '/events/event_advice_rows', :locals => { :advice_row => @advice_content } )) %>";
+<% else %>
+	var newhtml = "<%= escape_javascript(render(:partial => '/events/event_advice_siblings', :locals => { :advice_row => @advice_content } )) %>";
+<% end %>
+
+var $newhtml = $(newhtml);
+
+$newhtml.find('.advice_dropdown, .advice_text_field, .advice_text').each(function() {
+   var $field = $(this);
+   if ($field.val() == '')
+   {
+       $field.css('background-color', '#FFCCCC');
+   }
+});
+
+<% if @advice_content.type == 'AdviceContentAdvice' %>
+	var $advicebranch = $("input[value='<%= @advice_content.id %>'].advice_id_for_ancestry").closest(".advice_branch");
+<% else %>
+	var $input = $("input[value='<%= @advice_content.id %>'].advice_id_for_ancestry");
+	var $advicebranch = $input.closest(".advice_header").next().children(".advice_branch").children(".advice_rows");
+	$input.next().val("");
+<% end %>
+
+$advicebranch.replaceWith($newhtml);
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

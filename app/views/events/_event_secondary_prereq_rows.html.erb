@@ -1,0 +1,39 @@
+<% firstrow = true %>
+<% @event.secondary_prereqs.each do |prereq| %>
+	<% if firstrow %>
+		<div class="row row_first">
+		<% firstrow = false %>
+	<% else %>
+		<div class="row">
+	<% end %>
+			<%= form_for prereq, :remote => true do |f| %>
+				<%= link_to image_tag('/assets/red_close_button.png', :class => 'remove_button remove_secondary_prereq'), prereq, method: :delete, :remote => true %>
+				<div class="cell">
+					<div class="secondary_event">
+						Event:
+						<%= f.collection_select :prereq_id, Event.all - @event.subtree, :id, :name, {:include_blank => 'Choose event' }, :class => "secondary_prereq_event" %>
+					</div>
+					<div class="secondary_p">
+						P =
+						<%= f.text_field :p, :class => "secondary_prereq_p", :data => { :oldvalue => f.object.p } %>
+					</div>
+					<div class="secondary_chosen_outcomes_wrapper">
+						<div class="secondary_chosen_outcomes">
+							<% unless f.object.prereq_id.blank? %>
+								<% f.object.secondary_chosen_outcomes.each do |secondary_chosen_outcome| %>
+									<%= link_to secondary_chosen_outcome.content_outcome.text_for_selecting_outcome, secondary_chosen_outcome, method: :delete, :remote => true, :title => 'Remove outcome' %>
+								<% end %>
+								<% secondary_outcomes = f.object.get_available_secondary_outcomes %>
+								<% unless secondary_outcomes.empty? %>
+									<div class="secondary_prereq_outcome_wrapper">
+										<%= f.collection_select :secondary_chosen_outcome_id, secondary_outcomes, :id, :text_for_selecting_outcome, {:include_blank => 'Choose outcome' }, :class => "secondary_prereq_outcome" %>
+									</div>
+								<% end %>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			<% end %>
+			<br class="clear" />
+		</div>
+<% end %>

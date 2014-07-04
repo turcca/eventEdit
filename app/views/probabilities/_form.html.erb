@@ -1,0 +1,53 @@
+<%= form_for(@probability) do |f| %>
+  <% if @probability.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@probability.errors.count, "error") %> prohibited this probability from being saved:</h2>
+
+      <ul>
+      <% @probability.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :condition %><br>
+    <%= f.text_field :condition %>
+  </div>
+  <div class="field">
+    <%= f.label :tool1 %><br>
+    <%= f.text_field :tool1 %>
+  </div>
+  <div class="field">
+    <%= f.label :equality1 %><br>
+    <%= f.text_field :equality1 %>
+  </div>
+  <div class="field">
+    <%= f.label :value1 %><br>
+    <%= f.text_field :value1 %>
+  </div>
+  <div class="field">
+    <%= f.label :andor %><br>
+    <%= f.text_field :andor %>
+  </div>
+  <div class="field">
+    <%= f.label :tool2 %><br>
+    <%= f.text_field :tool2 %>
+  </div>
+  <div class="field">
+    <%= f.label :equality2 %><br>
+    <%= f.text_field :equality2 %>
+  </div>
+  <div class="field">
+    <%= f.label :value2 %><br>
+    <%= f.text_field :value2 %>
+  </div>
+  <div class="field">
+    <%= f.label :p %><br>
+    <%= f.text_field :p %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

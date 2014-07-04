@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Pre tool:</strong>
+  <%= @pre_tool_association.pre_tool_id %>
+</p>
+
+<p>
+  <strong>Tool:</strong>
+  <%= @pre_tool_association.tool_id %>
+</p>
+
+<%= link_to 'Edit', edit_pre_tool_association_path(@pre_tool_association) %> |
+<%= link_to 'Back', pre_tool_associations_path %>

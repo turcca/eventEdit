@@ -1,0 +1,43 @@
+<h1>Listing probabilities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Condition</th>
+      <th>Tool1</th>
+      <th>Equality1</th>
+      <th>Value1</th>
+      <th>Andor</th>
+      <th>Tool2</th>
+      <th>Equality2</th>
+      <th>Value2</th>
+      <th>P</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @probabilities.each do |probability| %>
+      <tr>
+        <td><%= probability.condition %></td>
+        <td><%= probability.tool1 %></td>
+        <td><%= probability.equality1 %></td>
+        <td><%= probability.value1 %></td>
+        <td><%= probability.andor %></td>
+        <td><%= probability.tool2 %></td>
+        <td><%= probability.equality2 %></td>
+        <td><%= probability.value2 %></td>
+        <td><%= probability.p %></td>
+        <td><%= link_to 'Show', probability %></td>
+        <td><%= link_to 'Edit', edit_probability_path(probability) %></td>
+        <td><%= link_to 'Destroy', probability, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Probability', new_probability_path %>

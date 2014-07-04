@@ -1,0 +1,29 @@
+<h1>Listing chosen_tools</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Pre tool</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chosen_tools.each do |chosen_tool| %>
+      <tr>
+        <td><%= chosen_tool.tool_id %></td>
+        <td><%= chosen_tool.pre_tool_id %></td>
+        <td><%= link_to 'Show', chosen_tool %></td>
+        <td><%= link_to 'Edit', edit_chosen_tool_path(chosen_tool) %></td>
+        <td><%= link_to 'Destroy', chosen_tool, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Chosen tool', new_chosen_tool_path %>

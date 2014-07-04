@@ -1,0 +1,10 @@
+<div class="cell" id="filter_cell">
+	Filters:
+	<% @event.chosen_filters.each do |chosen_filter| %>
+		<%= link_to chosen_filter.filter.name, chosen_filter, method: :delete, :remote => true, :title => 'Remove filter' %>
+	<% end %>
+	<% filters = @event.get_available_filters %>
+	<% unless filters.empty? %>
+		<%= f.collection_select :filter_id, filters, :id, :name, {:include_blank => 'Choose filter' }, :class => "event_filter" %>
+	<% end %>
+</div>

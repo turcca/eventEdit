@@ -1,0 +1,74 @@
+<div class="content_row">
+	<%= form_for content_choice, :as => 'content', :remote => true do |f| %>
+		<%= f.hidden_field :id, :class => "content_id_for_ancestry" %>
+		<%= f.hidden_field :parent_id, :class => "content_parent_id" %>
+		<%= image_tag('/assets/choice_logo.png', :class => 'content_logo') %>
+		<%= link_to image_tag('/assets/red_close_button.png', :class => 'remove_content_button'), content_choice, method: :delete, :remote => true %>
+		<div class="content_line_bg">
+			<div class="content_left">
+				<%= f.collection_select :condition, Probability::CONDITIONS, :to_s, :to_s, {:include_blank => true }, :class => "content_condition content_field" %>
+				<div class="content_clause_holder">
+					<%- unless content_choice.condition.blank? -%>				
+						<div class="content_clause">
+							<%= f.fields_for :tool1 do |ff| -%>
+								<%- if !ff.object.pre_tool_id.nil? -%>
+									<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('content_choice', ff.object, 'pretool', content_choice.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_choice', ff.object, 'tool', content_choice.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- else -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_choice', ff.object, 'tool', content_choice.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- end -%>
+								<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+									<%= ff.fields_for :chosen_parameters do |fff| -%>
+										<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+											<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "content_dropdown"}) -%>
+										<%- else -%>
+											<%= fff.text_field :custom_value, {:class => "content_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+										<%- end -%>
+									<%- end -%>
+								<%- end -%>
+							<%- end -%>
+							<%- unless content_choice.tool1.tool && content_choice.tool1.tool.booleanreturn -%>
+								<%= f.collection_select :equality1, Probability::EQUALITY_MARKERS_WITH_RANGE, :to_s, :to_s, {:include_blank => true }, :class => "content_dropdown" -%>
+								<%- if content_choice.equality1 != 'range' -%>
+									<%= f.text_field :value1, :class => "content_text_field", :data => { :oldvalue => content_choice.value1 } -%>
+								<%- else -%>
+									<%= f.text_field :value1, :class => "content_text_field", :title => '>', :data => { :oldvalue => content_choice.value1 } -%>-<%= f.text_field :rangevalue, :class => "content_text_field", :title => '<=', :data => { :oldvalue => content_choice.rangevalue } -%>
+								<%- end -%>
+							<%- end -%>
+							<%- if content_choice.equality1 != 'range' -%>
+								<%= f.collection_select :andor, Probability::ANDOR, :to_s, :to_s, {:include_blank => true }, :class => "content_andor" -%>
+							<%- end -%>
+						</div>
+					<%- end -%>
+					<% unless content_choice.andor.blank? %>
+						<div class="content_clause content_clause_second">
+							<%= f.fields_for :tool2 do |ff| %>
+								<%- if !ff.object.pre_tool_id.nil? -%>
+									<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('content_choice', ff.object, 'pretool', content_choice.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_choice', ff.object, 'tool', content_choice.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- else -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_choice', ff.object, 'tool', content_choice.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- end -%>
+								<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+									<%= ff.fields_for :chosen_parameters do |fff| -%>
+										<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+											<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "content_dropdown"}) -%>
+										<%- else -%>
+											<%= fff.text_field :custom_value, {:class => "content_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+										<%- end -%>
+									<%- end -%>
+								<%- end -%>
+							<% end %>
+							<%- unless content_choice.tool2.tool && content_choice.tool2.tool.booleanreturn -%>
+								<%= f.collection_select :equality2, Probability::EQUALITY_MARKERS, :to_s, :to_s, {:include_blank => true }, :class => "content_dropdown" %>
+								<%= f.text_field :value2, :class => "content_text_field", :data => { :oldvalue => content_choice.value2 } %>
+							<%- end -%>
+						</div>
+					<% end %>
+				</div>
+			</div>
+			<div class="content_right"><span class="content_right_hidden"><%= link_to image_tag('/assets/choice_add_button.png', :class => 'content_add_sibling_button add_sibling_choice'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentChoice', :parent_id => content_choice.parent.id } }, :method => 'post', :remote => true %></span><%= link_to image_tag('/assets/add_outcome_button.png', :class => 'content_add_child_button add_child_outcome'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentOutcome', :parent_id => content_choice.id } }, :method => 'post', :remote => true %></div>
+			<div class='content_textareawrapper'><%= f.text_area :text, :rows => 1, :size => '20x1', :class => 'content_choice_text content_text', :data => { :oldvalue => content_choice.text } %></div>
+		</div>
+	<% end %>
+</div>

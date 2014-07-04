@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Chosen tool:</strong>
+  <%= @chosen_parameter.chosen_tool_id %>
+</p>
+
+<p>
+  <strong>Parameter value:</strong>
+  <%= @chosen_parameter.parameter_value_id %>
+</p>
+
+<%= link_to 'Edit', edit_chosen_parameter_path(@chosen_parameter) %> |
+<%= link_to 'Back', chosen_parameters_path %>

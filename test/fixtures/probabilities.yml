@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  condition: MyString
+  tool1: MyString
+  equality1: MyString
+  value1: MyString
+  andor: MyString
+  tool2: MyString
+  equality2: MyString
+  value2: MyString
+  p: MyString
+
+two:
+  condition: MyString
+  tool1: MyString
+  equality1: MyString
+  value1: MyString
+  andor: MyString
+  tool2: MyString
+  equality2: MyString
+  value2: MyString
+  p: MyString

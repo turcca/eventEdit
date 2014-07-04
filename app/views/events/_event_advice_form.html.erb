@@ -1,0 +1,59 @@
+<div class="advice_row">
+	<%= form_for advice_row, :as => 'advice_content', :remote => true do |f| -%>
+		<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+		<%= f.hidden_field :parent_id, :class => "advice_parent_id" -%>
+		<%= link_to image_tag('/assets/red_close_button.png', :class => 'remove_advice_button'), advice_row, method: :delete, :remote => true -%>
+		<div class="advice_line_bg">
+			<div class="advice_left">
+				<%= f.collection_select :condition, Probability::CONDITIONS, :to_s, :to_s, {:include_blank => true }, :class => "advice_condition" -%>
+				<div class="advice_clause_holder">
+					<div class="advice_clause">
+						<div class="advice_tool_left">
+							<%- unless advice_row.condition.blank? -%>
+								<%= f.fields_for :tool do |ff| -%>
+									<%- if !ff.object.pre_tool_id.nil? -%>
+										<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('advice', ff.object, 'pretool', advice_row.root.event), {:include_blank => 'Choose tool' }, {:class => "advice_dropdown"}) -%>
+										<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('advice', ff.object, 'tool', advice_row.root.event), {:include_blank => 'Choose tool' }, {:class => "advice_dropdown"}) -%>
+									<%- else -%>
+										<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('advice', ff.object, 'tool', advice_row.root.event), {:include_blank => 'Choose tool' }, {:class => "advice_dropdown"}) -%>
+									<%- end -%>
+									<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+										<%= ff.fields_for :chosen_parameters do |fff| -%>
+											<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+												<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "advice_dropdown"}) -%>
+											<%- else -%>
+												<%= fff.text_field :custom_value, {:class => "advice_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+											<%- end -%>
+										<%- end -%>
+									<%- end -%>
+								<%- end -%>
+								<%- unless advice_row.tool.tool && advice_row.tool.tool.booleanreturn -%>
+									<%= f.collection_select :equality, Probability::EQUALITY_MARKERS, :to_s, :to_s, {:include_blank => true }, :class => "advice_dropdown" -%>
+									<%= f.text_field :value, :class => "advice_text_field", :data => { :oldvalue => advice_row.value } -%>
+								<%- end -%>
+							<%- end -%>
+						</div>
+						<%- if advice_row.children.any? -%>
+							<div class="andbg">AND</div>
+						<%- end -%>
+					</div>
+				</div>
+			</div>
+			<div class="advice_right">
+				<%= link_to image_tag('/assets/advice_add_button.png', :class => 'advice_add_child_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => advice_row.id } }, :method => 'post', :remote => true %>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_template" -%>
+				<%- if advice_row.children.empty? -%>
+					<% choices = @event.get_choices_for_advice %>
+					<% unless choices.empty? %>
+						<div class="advice_choice_wrapper">
+							<%= f.collection_select :content_choice_id, choices, :id, :text_for_selecting_choice, {:include_blank => 'Choose choice' }, :class => "advice_choice advice_dropdown" %>
+						</div>
+					<% end %>
+				<%- end -%>
+			</div>
+			<%- if advice_row.children.empty? -%>
+				<div class='advice_textareawrapper'><%= f.text_area :text, :rows => 1, :size => '20x1', :class => 'advice_text', :data => { :oldvalue => advice_row.text } %></div>
+			<%- end -%>
+		</div>
+	<% end %>
+</div>

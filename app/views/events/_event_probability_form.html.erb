@@ -1,0 +1,65 @@
+<div class="cell">
+	<%= form_for probability, :remote => true do |f| %>
+		<%= f.collection_select :condition, Probability::CONDITIONS, :to_s, :to_s, {:include_blank => true }, :class => "probability_condition" %>
+		<% unless probability.condition.blank? %>
+			<%= f.fields_for :tool1 do |ff| %>
+				<% if !ff.object.pre_tool_id.blank? %>
+					<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('probability', ff.object, 'pretool', probability.event), {:include_blank => 'Choose tool' }, {:class => "probability_dropdown"}) %>
+					<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('probability', ff.object, 'tool', probability.event), {:include_blank => 'Choose tool' }, {:class => "probability_dropdown"}) %>
+				<% else %>
+					<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('probability', ff.object, 'tool', probability.event), {:include_blank => 'Choose tool' }, {:class => "probability_dropdown"}) %>
+				<% end %>
+				<% unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? %>
+					<%= ff.fields_for :chosen_parameters do |fff| %>
+						<% if fff.object.parameter.parameter_type.is_custom_type %>
+							<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "probability_dropdown"}) %>
+						<% else %>
+							<%= fff.text_field :custom_value, {:class => "probability_text_field", :data => { :oldvalue => fff.object.custom_value }} %>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+		<% unless probability.tool1.tool && probability.tool1.tool.booleanreturn %>
+				<%= f.collection_select :equality1, Probability::EQUALITY_MARKERS_WITH_RANGE, :to_s, :to_s, {:include_blank => true }, :class => "probability_dropdown" %>
+				<% if probability.equality1 != 'range' %>
+					<%= f.text_field :value1, :class => "probability_text_field", :data => { :oldvalue => probability.value1 } %>
+				<% else %>
+					<%= f.text_field :value1, :class => "probability_text_field", :title => '>', :data => { :oldvalue => probability.value1 } %>-<%= f.text_field :rangevalue, :class => "probability_text_field", :title => '<=', :data => { :oldvalue => probability.rangevalue } %>
+				<% end %>
+		<% end %>
+		<% if probability.equality1 != 'range' %>
+			<%= f.collection_select :andor, Probability::ANDOR, :to_s, :to_s, {:include_blank => true }, :class => "probability_andor" %>
+		<% end %>
+		<% unless probability.andor.blank? %>
+			<%= f.fields_for :tool2 do |ff| %>
+				<% if !ff.object.pre_tool_id.blank? %>
+					<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('probability', ff.object, 'pretool', probability.event), {:include_blank => 'Choose tool' }, {:class => "probability_dropdown"}) %>
+					<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('probability', ff.object, 'tool', probability.event), {:include_blank => 'Choose tool' }, {:class => "probability_dropdown"}) %>
+				<% else %>
+					<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('probability', ff.object, 'tool', probability.event), {:include_blank => 'Choose tool' }, {:class => "probability_dropdown"}) %>
+				<% end %>
+				<% unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? %>
+					<%= ff.fields_for :chosen_parameters do |fff| %>
+						<% if fff.object.parameter.parameter_type.is_custom_type %>
+							<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "probability_dropdown"}) %>
+						<% else %>
+							<%= fff.text_field :custom_value, {:class => "probability_text_field", :data => { :oldvalue => fff.object.custom_value }} %>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+			<% unless probability.tool2.tool && probability.tool2.tool.booleanreturn %>
+				<%= f.collection_select :equality2, Probability::EQUALITY_MARKERS, :to_s, :to_s, {:include_blank => true }, :class => "probability_dropdown" %>
+				<%= f.text_field :value2, :class => "probability_text_field", :data => { :oldvalue => probability.value2 } %>
+			<% end %>
+		<% end %>
+		<span class="p_span">
+			P =
+			<%= f.text_field :p, :class => "probability_text_field", :data => { :oldvalue => probability.p } %>
+		</span>
+		
+	<% end %>
+</div>
+<%= link_to image_tag('/assets/red_close_button.png', :class => 'remove_button remove_probability'), probability, method: :delete, :remote => true %>
+

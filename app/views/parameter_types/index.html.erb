@@ -1,0 +1,43 @@
+<% if notice %>
+	<p id="notice"><%= notice %></p>
+<% end %>
+
+<h1>Listing parameter types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>""</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @parameter_types.each do |parameter_type| %>
+      <tr>
+        <td><%= parameter_type.name %></td>
+        <td>
+        	<% if parameter_type.needs_quotation %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td><%= link_to 'Edit', edit_parameter_type_path(parameter_type) %></td>
+        <td>
+        	<% unless parameter_type.system %>
+        		<%= link_to 'Destroy', parameter_type, method: :delete, data: { confirm: 'Are you sure?' } %>
+        	<% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Parameter type', new_parameter_type_path %>
+<%= link_to 'Tools', tools_path %>
+<%= link_to 'Event_map', events_path %>

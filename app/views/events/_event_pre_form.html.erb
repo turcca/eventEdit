@@ -1,0 +1,21 @@
+<div id="prereq_cell" class="cell">
+	<div id="prereq_event">
+		Prerequisite event:
+		<%= f.collection_select :parent_id, Event.all - @event.subtree, :id, :name, {:include_blank => 'Choose event' }, :id => "event_prereq_event" %>
+	</div>
+	<div id="chosen_outcomes_wrapper">
+		<div id="chosen_outcomes">
+			<% unless @event.parent.nil? %>
+				<% @event.chosen_outcomes.each do |chosen_outcome| %>
+					<%= link_to chosen_outcome.content_outcome.text_for_selecting_outcome, chosen_outcome, method: :delete, :remote => true, :title => 'Remove outcome' %>
+				<% end %>
+				<% outcomes = @event.get_available_outcomes %>
+				<% unless outcomes.empty? %>
+					<div id="event_prereq_outcome_wrapper">
+						<%= f.collection_select :chosen_outcome_id, outcomes, :id, :text_for_selecting_outcome, {:include_blank => 'Choose outcome' }, :id => "event_prereq_outcome" %>
+					</div>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+</div>

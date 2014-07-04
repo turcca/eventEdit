@@ -1,0 +1,125 @@
+<div id="event_advice_block">
+	<div id="event_advice_header" class="advice_header">
+		<%= image_tag '/assets/advice_button.png', :class => 'advice_header_img' -%>
+		<div id="header_line_advice"></div>
+	</div>	
+
+	<div id="event_advice_header_captain" class="advice_header">
+		<%= link_to image_tag('/assets/L_captain.png', :class => 'header_img add_advice_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => @event.captain_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_advice">
+			<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img advice_collapse_button' -%>
+			<%= form_for @event.captain_root, :as => 'advice_content', :remote => true do |f| -%>
+				<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_header_template" -%>
+			<%- end -%>
+		</div>
+	</div>
+	
+	<div id="event_captain_form">
+		<div class="advice_branch">
+			<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => @event.captain_root } %>
+		</div>
+	</div>
+	
+	<div id="event_advice_header_navigator" class="advice_header">
+		<%= link_to image_tag('/assets/L_navigator.png', :class => 'header_img add_advice_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => @event.navigator_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_advice">
+			<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img advice_collapse_button' -%>
+			<%= form_for @event.navigator_root, :as => 'advice_content', :remote => true do |f| -%>
+				<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_header_template" -%>
+			<%- end -%>
+		</div>
+	</div>
+	
+	<div id="event_navigator_form">
+		<div class="advice_branch">
+			<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => @event.navigator_root } %>
+		</div>
+	</div>
+	
+	<div id="event_advice_header_engineer" class="advice_header">
+		<%= link_to image_tag('/assets/L_engineer.png', :class => 'header_img add_advice_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => @event.engineer_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_advice">
+			<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img advice_collapse_button' -%>
+			<%= form_for @event.engineer_root, :as => 'advice_content', :remote => true do |f| -%>
+				<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_header_template" -%>
+			<%- end -%>
+		</div>
+	</div>
+	
+	<div id="event_engineer_form">
+		<div class="advice_branch">
+			<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => @event.engineer_root } %>
+		</div>
+	</div>
+	
+	<div id="event_advice_header_quartermaster" class="advice_header">
+		<%= link_to image_tag('/assets/L_quartermaster.png', :class => 'header_img add_advice_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => @event.quartermaster_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_advice">
+			<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img advice_collapse_button' -%>
+			<%= form_for @event.quartermaster_root, :as => 'advice_content', :remote => true do |f| -%>
+				<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_header_template" -%>
+			<%- end -%>
+		</div>
+	</div>
+	
+	<div id="event_quartermaster_form">
+		<div class="advice_branch">
+			<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => @event.quartermaster_root } %>
+		</div>
+	</div>
+	
+	<div id="event_advice_header_security" class="advice_header">
+		<%= link_to image_tag('/assets/L_security.png', :class => 'header_img add_advice_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => @event.security_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_advice">
+			<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img advice_collapse_button' -%>
+			<%= form_for @event.security_root, :as => 'advice_content', :remote => true do |f| -%>
+				<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_header_template" -%>
+			<%- end -%>
+		</div>
+	</div>
+	
+	<div id="event_security_form">
+		<div class="advice_branch">
+			<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => @event.security_root } %>
+		</div>
+	</div>
+	
+	<div id="event_advice_header_priest" class="advice_header">
+		<%= link_to image_tag('/assets/L_priest.png', :class => 'header_img add_advice_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => @event.priest_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_advice">
+			<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img advice_collapse_button' -%>
+			<%= form_for @event.priest_root, :as => 'advice_content', :remote => true do |f| -%>
+				<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_header_template" -%>
+			<%- end -%>
+		</div>
+	</div>
+	
+	<div id="event_priest_form">
+		<div class="advice_branch">
+			<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => @event.priest_root } %>
+		</div>
+	</div>
+	
+	<div id="event_advice_header_psycher" class="advice_header">
+		<%= link_to image_tag('/assets/L_psycher.png', :class => 'header_img add_advice_button'), { :action => 'create', :controller => 'advice_contents', :advice_content => { :type => 'AdviceContentAdvice', :parent_id => @event.psycher_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_advice">
+			<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img advice_collapse_button' -%>
+			<%= form_for @event.psycher_root, :as => 'advice_content', :remote => true do |f| -%>
+				<%= f.hidden_field :id, :class => "advice_id_for_ancestry" -%>
+				<%= f.collection_select :template, AdviceContent::TEMPLATES, :to_s, :to_s, {:include_blank => 'Template' }, :class => "advice_header_template" -%>
+			<%- end -%>
+		</div>
+	</div>
+	
+	<div id="event_psycher_form">
+		<div class="advice_branch">
+			<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => @event.psycher_root } %>
+		</div>
+	</div>
+</div>

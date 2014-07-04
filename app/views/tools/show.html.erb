@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @tool.name %>
+</p>
+
+<p>
+  <strong>Tooltype:</strong>
+  <%= @tool.tooltype %>
+</p>
+
+<p>
+  <strong>Character:</strong>
+  <%= @tool.character %>
+</p>
+
+<p>
+  <strong>Probability:</strong>
+  <%= @tool.probability %>
+</p>
+
+<p>
+  <strong>Content condition:</strong>
+  <%= @tool.content_condition %>
+</p>
+
+<p>
+  <strong>Content effect:</strong>
+  <%= @tool.content_effect %>
+</p>
+
+<p>
+  <strong>Advice:</strong>
+  <%= @tool.advice %>
+</p>
+
+<p>
+  <strong>Pre tool:</strong>
+  <%= @tool.pre_tool %>
+</p>
+
+<%= link_to 'Edit', edit_tool_path(@tool) %> |
+<%= link_to 'Back', tools_path %>

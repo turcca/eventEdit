@@ -1,0 +1,32 @@
+<% if notice %>
+	<p id="notice"><%= notice %></p>
+<% end %>
+
+<h1>Listing filters</h1>
+
+<table class="admintable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Color</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @filters.each do |filter| %>
+      <tr>
+        <td><%= filter.name %></td>
+        <td bgcolor='<%= filter.color %>'>AbCd123</td>
+        <td><%= link_to 'Edit', edit_filter_path(filter) %></td>
+        <td><%= link_to 'Destroy', filter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Filter', new_filter_path %>
+<%= link_to 'Event_map', events_path %>

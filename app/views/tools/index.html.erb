@@ -1,0 +1,134 @@
+<% if notice %>
+	<p id="notice"><%= notice %></p>
+<% end %>
+
+<h1>Listing tools</h1>
+
+<table class="admintable">
+  <thead>
+    <tr>
+	  <th></th>
+      <th></th>
+      <th>Name</th>
+      <th>Tooltype</th>
+      <th>Boolean return</th>
+      <th>Character</th>
+      <th>Location</th>
+      <th>Trigger</th>
+      <th>Probability</th>
+      <th>Content<br>condition</th>
+      <th>Content<br>effect</th>
+      <th>Advice</th>
+      <th>Is Pre-tool</th>
+      <% @tools.where(is_pre_tool: true).order('name').each do |pretool| %>
+      	<th><%= pretool.name %><br>pre-tool</th>
+      <% end %>
+      <th>Parameters</th>
+      <th>Tooltip</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tools.each do |tool| %>
+      <tr>
+   		<td class="tools_edit"><%= link_to 'Edit', edit_tool_path(tool) %></td>
+      	<% if tool.system %>
+      		<td></td>
+      	<% else %>
+        	<td class="tools_destroy"><%= link_to 'Destroy', tool, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      	<% end %>
+        <td class="tools_name"><%= tool.name %></td>
+        <td><%= tool.tooltype %></td>
+        <td>
+        	<% if tool.booleanreturn %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.character %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.location %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.trigger %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.probability %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.content_condition %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.content_effect %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.advice %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <td>
+        	<% if tool.is_pre_tool %>
+        		<%= image_tag "checked.svg", :class => 'check' %>
+        	<% else %>
+        		<%= image_tag "not_checked.svg", :class => 'check' %>
+        	<% end %>
+        </td>
+        <% @tools.where(is_pre_tool: true).order('name').each do |pretool| %>
+        	<td>
+      		<% if pretool.tool_associations.where(tool_id: tool.id).any? %>
+      			<%= image_tag "checked.svg", :class => 'check' %>
+      		<% else %>
+      			<%= image_tag "not_checked.svg", :class => 'check' %>
+      		<% end %>
+      		</td>
+      	<% end %>
+        <td>
+        	<%- first_parameter_done = false -%>
+        	<%- tool.parameters.each do |parameter| -%>
+        		<%- if !first_parameter_done -%>
+        			<%= parameter.parameter_type.name -%><%- first_parameter_done = true -%><%- else -%>, <%= parameter.parameter_type.name -%>
+        		<%- end -%>
+        	<%- end -%>
+        </td>
+        <td>
+        	<%= tool.tooltip -%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tool', new_tool_path %>
+<%= link_to 'Parameter_types', parameter_types_path %>
+<%= link_to 'Event_map', events_path %>

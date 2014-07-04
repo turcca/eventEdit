@@ -1,0 +1,67 @@
+<%= form_for @event, :remote => true do |f| %>
+  	<div class="table">
+		<div id="event_header_row">
+			<div id="event_name_cell" class="cell">
+				Event name:
+				<div class="field">
+    				<%= f.text_field :name, :id => 'event_field_name', :data => { :oldvalue => @event.name } %>
+  				</div>
+  			</div>
+  			<div id="event_comment_cell" class="cell">
+  				Comments:
+  				<div class="field">
+  					<%= f.text_area :comment, :rows => 1, :size => '20x1', :id => 'event_field_comment', :data => { :oldvalue => @event.comment } %>
+				</div>  
+			</div>
+		</div>
+		<div class="row" id="filter_row">
+			<%= render :partial => 'event_filter_cell', :locals => { :f => f } %>
+		</div>
+		<div class="row" id="frequency_row">
+			<div class="cell">
+				Frequency:
+				<%= f.collection_select :frequency, Event::FREQUENCY, :to_s, :to_s, {:include_blank => 'Choose frequency' }, :id => "event_frequency" %>
+			</div>
+			<div class="cell situation_cell">
+				Situation:
+				<%= f.collection_select :situation, Event::SITUATION, :to_s, :to_s, {:include_blank => 'Choose situation' }, :id => "event_situation" %>
+			</div>
+			<div class="cell ambient_cell">
+				Ambient:
+				<%= f.collection_select :ambient, Event::AMBIENT, :to_s, :to_s, {:include_blank => 'Choose ambient' }, :id => "event_ambient" %>
+			</div>
+		</div>
+		<div id="event_prereq_row" class="row" style="display:none;">
+			<%= image_tag '/assets/red_close_button.png', :class => 'remove_button', :id => 'remove_prereq_row' %>
+			<%= render :partial => 'event_pre_form', :locals => { :f => f } %>
+			<br class="clear" />
+		</div>
+		<div id="event_character_row" class="row" style="display:none;">
+			<div id="character_cell" class="cell">
+				Character:
+				<%= render :partial => 'event_character_form', :locals => { :f => f } %>
+				<%= image_tag '/assets/red_close_button.png', :class => 'remove_button', :id => 'remove_character_row' %>
+			</div>
+		</div>
+		<div id="event_location_row" class="row" style="display:none;">
+			<div id="location_cell" class="cell">
+				Location:
+				<%= render :partial => 'event_location_form', :locals => { :f => f } %>
+				<%= image_tag '/assets/red_close_button.png', :class => 'remove_button', :id => 'remove_location_row' %>
+			</div>
+		</div>
+		<div id="event_trigger_row" class="row" style="display:none;">
+			<div id="trigger_cell" class="cell">
+				Trigger:
+				<%= render :partial => 'event_trigger_form', :locals => { :f => f } %>
+				<%= image_tag '/assets/red_close_button.png', :class => 'remove_button', :id => 'remove_trigger_row' %>
+			</div>
+		</div>
+  	</div>
+  	<div id="event_buttons">
+  		<%= image_tag '/assets/add_character_button.png', :class => 'add_row_button cursor_button', :id => 'add_character_row' %>
+  		<%= image_tag '/assets/location_button.png', :class => 'add_row_button cursor_button', :id => 'add_location_row' %>
+  		<%= image_tag '/assets/prereq_button.png', :class => 'add_row_button cursor_button', :id => 'add_prereq_row' -%>
+  		<%= image_tag '/assets/trigger_button.png', :class => 'add_row_button cursor_button', :id => 'add_trigger_row' -%>
+  	</div>
+<% end %>

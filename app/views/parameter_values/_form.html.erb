@@ -1,0 +1,25 @@
+<%= form_for(@parameter_value) do |f| %>
+  <% if @parameter_value.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@parameter_value.errors.count, "error") %> prohibited this parameter_value from being saved:</h2>
+
+      <ul>
+      <% @parameter_value.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :parameter_type_id %><br>
+    <%= f.number_field :parameter_type_id %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

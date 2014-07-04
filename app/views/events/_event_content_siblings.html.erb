@@ -1,0 +1,20 @@
+<div class="content_text_rows">
+	<% content_row.children.where(type: 'ContentText').each do |content| %>
+		<%= render :partial => '/events/event_content_rows', :locals => { :content_row => content } %>
+	<% end %>
+</div>
+<div class="content_effect_rows">
+	<% content_row.children.where(type: 'ContentEffect').each do |content| %>
+		<%= render :partial => '/events/event_content_rows', :locals => { :content_row => content } %>
+	<% end %>
+</div>
+<div class="content_choice_rows">
+	<% content_row.children.where(type: 'ContentChoice').each do |content| %>
+		<%= render :partial => '/events/event_content_rows', :locals => { :content_row => content } %>
+	<% end %>
+</div>
+<div class="content_outcome_rows">
+	<% content_row.children.where(type: 'ContentOutcome').each do |content| %>
+		<%= render :partial => '/events/event_content_rows', :locals => { :content_row => content } %>
+	<% end %>
+</div>

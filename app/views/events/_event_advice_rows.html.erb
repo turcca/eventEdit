@@ -1,0 +1,6 @@
+<div class="advice_branch">
+	<%= render :partial => '/events/event_advice_form', :locals => { :advice_row => advice_row } %>
+	<div class="advice_child_block">
+		<%= render :partial => '/events/event_advice_siblings', :locals => { :advice_row => advice_row } %>
+	</div>
+</div>

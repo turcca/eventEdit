@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  secondary_prereq_id: 1
+  content_outcome_id: 1
+
+two:
+  secondary_prereq_id: 1
+  content_outcome_id: 1

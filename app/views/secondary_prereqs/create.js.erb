@@ -1,0 +1,16 @@
+$('#event_secondary_prereq_form').html("<%= escape_javascript(render(:partial => '/events/event_secondary_prereq_rows')) %>");
+
+$('#event_secondary_prereq_form').find('.secondary_prereq_event, .secondary_prereq_p').each(function() {
+	$field = $(this);
+	if ($field.val() === '')
+	{
+		$field.css('background-color', '#FFCCCC');
+	}
+});
+
+$("form[action='/secondary_prereqs/<%= @secondary_prereq.id %>']").parents('.row').hide().fadeIn(200);
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ancestry: MyString
+  type: 
+  text: MyText
+  condition: MyString
+  tool1: 1
+  skill1: 1
+  equality1: MyString
+  andor: MyString
+  tool2: 1
+  skill2: 1
+  equality2: MyString
+  event_id: 1
+
+two:
+  ancestry: MyString
+  type: 
+  text: MyText
+  condition: MyString
+  tool1: 1
+  skill1: 1
+  equality1: MyString
+  andor: MyString
+  tool2: 1
+  skill2: 1
+  equality2: MyString
+  event_id: 1

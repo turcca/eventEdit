@@ -1,0 +1,28 @@
+$('input#advice_content_id').each(function() {
+	if ($(this).val() === '<%= @id %>')
+	{
+		var $branch = $(this).closest('.advice_branch');
+		$branch.stop().fadeOut(200);
+		setTimeout(function() {
+			<% if @advice_content.parent.type != 'AdviceContentRoot' %>
+				var newhtml = "<%= escape_javascript(render(:partial => '/events/event_advice_form', :locals => { :advice_row => @advice_content.parent } )) %>";	
+				var $newhtml = $(newhtml);
+				$newhtml.find('.advice_dropdown, .advice_text_field, .advice_text').each(function() {
+				   var $field = $(this);
+				   if ($field.val() == '')
+				   {
+				       $field.css('background-color', '#FFCCCC');
+				   }
+				});
+				var $advicerow = $branch.closest('.advice_child_block').prev();
+				$advicerow.replaceWith($newhtml);
+			<% end %>
+			$branch.remove();
+		}, 200);
+	}
+});
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

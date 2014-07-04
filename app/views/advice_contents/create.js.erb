@@ -1,0 +1,31 @@
+var newhtml;
+var $replace;
+<% if @advice_content.has_siblings? || @advice_content.parent.type == 'AdviceContentRoot' %>
+	newhtml = "<%= escape_javascript(render(:partial => '/events/event_advice_rows', :locals => { :advice_row => @advice_content } )) %>";
+	$replace = $('#ajaxcontentmarker');
+<% else %>
+	newhtml = "<%= escape_javascript(render(:partial => '/events/event_advice_rows', :locals => { :advice_row => @advice_content.parent } )) %>";
+	$replace = $('#ajaxcontentmarker').closest('.advice_child_block').prev();
+	$('#ajaxcontentmarker').remove();
+<% end %>
+
+var $newhtml = $(newhtml);
+
+$newhtml.find('.advice_row').hide();
+
+$newhtml.find('.advice_dropdown, .advice_text_field, .advice_text').each(function() {
+   var $field = $(this);
+   if ($field.val() == '')
+   {
+       $field.css('background-color', '#FFCCCC');
+   }
+});
+
+$replace.replaceWith($newhtml);
+
+$newhtml.find('.advice_row').fadeIn(200);
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

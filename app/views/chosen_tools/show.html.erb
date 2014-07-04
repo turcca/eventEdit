@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tool:</strong>
+  <%= @chosen_tool.tool_id %>
+</p>
+
+<p>
+  <strong>Pre tool:</strong>
+  <%= @chosen_tool.pre_tool_id %>
+</p>
+
+<%= link_to 'Edit', edit_chosen_tool_path(@chosen_tool) %> |
+<%= link_to 'Back', chosen_tools_path %>

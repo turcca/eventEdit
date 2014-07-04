@@ -1,0 +1,36 @@
+<%= form_for @event, :remote => true do |f| %>
+  	<div id="event_table" class="table">
+		<div id="event_header_row" class="row">
+			<div id="event_name_cell" class="cell">
+				Event name:
+				<div class="field">
+    				<%= f.text_field :name, :class => "size_adjusted", :id => 'event_field_name', :data => { :oldvalue => @event.name } %>
+  				</div>
+  			</div>
+  			<div id="event_comment_cell" class="cell">
+  				Comments:
+  				<div class="field">
+  					<%= f.text_field :comment, :class => "size_adjusted", :id => 'event_field_comment', :data => { :oldvalue => @event.comment } %>
+				</div>  
+			</div>
+		</div>
+		<div id="event_character_row" class="row">
+			<div id="character_cell" class="cell">
+				Character:
+				<div class="field">
+					<%= f.collection_select :character_tool, Event::CHARACTER_TOOLS, :to_s, :to_s, {:include_blank => 'Choose tool' }, :id => "character_dropdown_tool" %>
+				</div>
+				<div class="field">
+					<%= f.collection_select :character_skill, Event::SKILLS, :to_s, :to_s, {:include_blank => 'Choose skill' }, :id => "character_dropdown_skill" %>
+				</div>
+				<%= image_tag '/assets/red_close_button.png', :class => 'remove_character_row' %>
+			</div>
+		</div>
+  	</div>
+  	<div id="event_buttons">
+	  	<div class="actions">
+    		<%= f.submit %>
+  		</div>
+  		<%= image_tag '/assets/add_character_button.png', :class => 'add_character_row' %>
+  	</div>
+<% end %>

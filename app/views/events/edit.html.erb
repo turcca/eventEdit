@@ -1,0 +1,77 @@
+<div id="infobox">
+	<%= render 'infobox' -%>
+</div>
+
+<div id="edit_event">
+	
+	<div id="event_main_form">
+		<%= render 'event_main_form' -%>
+	</div>
+	
+	<div id="event_secondary_prereq_header" class="header">
+		<%= form_for @newsecondaryprereq, :remote => true do |f| -%>
+			<%= hidden_field_tag(request_forgery_protection_token.to_s, form_authenticity_token) -%>
+    		<%= f.hidden_field :event_id, { :value => @event.id } -%>
+    		<%= f.hidden_field :prereq_id, { :value => '' } -%>
+			<%= image_tag '/assets/eventlinks_button.png', :class => 'header_img', :id => 'secondary_prereq_button' -%>
+		<%- end -%>
+		<div class="header_line_secondary_prereq"></div>
+		<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img', :id => 'secondary_prereq_collapse_button' -%>
+	</div>
+	
+	<div id="event_secondary_prereq_form">
+		<%= render 'event_secondary_prereq_rows' -%>
+	</div>
+	
+	<div id="event_probability_header" class="header">
+		<%= form_for @newprobability, :remote => true do |f| -%>
+			<%= hidden_field_tag(request_forgery_protection_token.to_s, form_authenticity_token) -%>
+    		<%= f.hidden_field :condition, { :value => '' } -%>
+    		<%= f.hidden_field :equality1, { :value => '' } -%>
+    		<%= f.hidden_field :value1, { :value => '' } -%>
+    		<%= f.hidden_field :andor, { :value => '' } -%>
+    		<%= f.hidden_field :equality2, { :value => '' } -%>
+    		<%= f.hidden_field :value2, { :value => '' } -%>
+   			<%= f.hidden_field :p, { :value => '0' } -%>
+   			<%= f.hidden_field :event_id, { :value => @event.id } -%>
+			<%= image_tag '/assets/probability_button.png', :class => 'header_img', :id => 'probability_button' -%>
+		<%- end -%>
+		<div class="header_line_probability"></div>
+		<%= image_tag '/assets/button_expanded.png', :class => 'collapse_img', :id => 'probability_collapse_button' -%>
+	</div>
+	
+	<div id="event_probability_form">
+		<%= render 'event_probability_rows' -%>
+	</div>
+	
+	<div id="event_content_header" class="header">
+		<%= image_tag '/assets/content_button.png', :class => 'header_img', :id => 'content_button' -%>
+		<div id="header_line_content"></div>
+		<%= link_to image_tag('/assets/effect_button.png', :class => 'content_img', :id => 'effect_button'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentEffect', :parent_id => @event.content_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_buttons"></div>
+		<%= link_to image_tag('/assets/choice_button.png', :class => 'content_img', :id => 'choice_button'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentChoice', :parent_id => @event.content_root.id } }, :method => 'post', :remote => true -%>
+		<div class="header_line_buttons"></div>
+		<%= link_to image_tag('/assets/text_button.png', :class => 'content_img', :id => 'text_button'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentText', :parent_id => @event.content_root.id } }, :method => 'post', :remote => true -%>
+	</div>
+	
+	<div id="event_content_form">
+		<div class="content_branch">
+			<%= render :partial => '/events/event_content_siblings', :locals => { :content_row => @event.content_root } %>
+		</div>
+	</div>
+	
+	<%= render :partial => '/events/event_advice_block' %>
+	
+	<p id="back_to_index">
+		<%= link_to 'Back', events_path -%>
+	</p>
+	<p id="destroy_event">
+		<%= link_to 'Destroy event', @event, method: :delete, :confirm => 'Are you sure?' -%>
+	</p>
+</div>
+
+
+
+<%- content_for(:js) do -%>
+	<%= javascript_include_tag :character, :probability, :content, :secondary_prereq, :advice -%>
+<%- end -%>

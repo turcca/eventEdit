@@ -1,0 +1,47 @@
+<%= form_for(@parameter_type) do |f| %>
+  <% if @parameter_type.errors.any? %>
+    <div>
+      <h2><%= pluralize(@parameter_type.errors.count, "error") %> prohibited this parameter_type from being saved:</h2>
+
+      <ul>
+      <% @parameter_type.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<table>
+		<tr>
+  			<td>
+  				Parameter type:
+  			</td>
+  			<td>
+  				<%= f.text_field :name %>
+  			</td>
+  			<td colspan="2">
+  				Needs quotation: <%= f.check_box :needs_quotation %>
+  				System: <%= f.check_box :system %>
+  			</td>
+  		</tr>
+		<%= f.fields_for :parameter_values do |parameter_value_form| %>
+  			<tr>
+  				<td>
+  					Value:
+  				</td>
+  				<td>
+  					<%= parameter_value_form.text_field :name %>
+  				</td>
+  				<td>
+  					Tooltip:
+  				</td>
+  				<td>
+  					<%= parameter_value_form.text_field :tooltip, :size => '70' %>
+  				</td>
+  			</tr>
+  		<% end %>
+  	</table>
+    
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

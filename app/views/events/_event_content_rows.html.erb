@@ -1,0 +1,21 @@
+<% if content_row.type == 'ContentText' %>
+	<div class="content_branch content_branch_text">
+		<%= render :partial => '/events/event_content_text_form', :locals => { :content_text => content_row } %>
+<% elsif content_row.type == 'ContentChoice' %>
+	<% if content_row.sibling_choices_after_this.count > 0 %>
+		<div class="content_branch content_branch_choice">
+	<% else %>
+		<div class="content_branch">
+	<% end %>
+			<%= render :partial => '/events/event_content_choice_form', :locals => { :content_choice => content_row } %>
+<% elsif content_row.type == 'ContentOutcome' %>
+	<div class="content_branch content_branch_outcome">
+		<%= render :partial => '/events/event_content_outcome_form', :locals => { :content_outcome => content_row } %>
+<% elsif content_row.type == 'ContentEffect' %>
+	<div class="content_branch content_branch_effect">
+		<%= render :partial => '/events/event_content_effect_form', :locals => { :content_effect => content_row } %>
+<% end %>
+		<div class="child_block">
+			<%= render :partial => '/events/event_content_siblings', :locals => { :content_row => content_row } %>
+		</div>
+	</div>

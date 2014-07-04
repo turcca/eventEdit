@@ -1,0 +1,20 @@
+var newhtml = "<%= escape_javascript(render(:partial => '/events/event_probability_form', :locals => { :probability => @probability })) %>";
+
+var $newhtml = $(newhtml);
+
+$newhtml.find('.probability_dropdown, .probability_text_field').each(function() {
+	$field = $(this);
+	if ($field.val() === '')
+	{
+		$field.css('background-color', '#FFCCCC');
+	}
+});
+
+var $probabilitycell = $("form[action='/probabilities/<%= @probability.id %>']").closest(".cell");
+
+$probabilitycell.replaceWith($newhtml);
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

@@ -1,0 +1,49 @@
+<h1>Listing contents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ancestry</th>
+      <th>Type</th>
+      <th>Text</th>
+      <th>Condition</th>
+      <th>Tool1</th>
+      <th>Skill1</th>
+      <th>Equality1</th>
+      <th>Andor</th>
+      <th>Tool2</th>
+      <th>Skill2</th>
+      <th>Equality2</th>
+      <th>Event</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contents.each do |content| %>
+      <tr>
+        <td><%= content.ancestry %></td>
+        <td><%= content.type %></td>
+        <td><%= content.text %></td>
+        <td><%= content.condition %></td>
+        <td><%= content.tool1 %></td>
+        <td><%= content.skill1 %></td>
+        <td><%= content.equality1 %></td>
+        <td><%= content.andor %></td>
+        <td><%= content.tool2 %></td>
+        <td><%= content.skill2 %></td>
+        <td><%= content.equality2 %></td>
+        <td><%= content.event_id %></td>
+        <td><%= link_to 'Show', content %></td>
+        <td><%= link_to 'Edit', edit_content_path(content) %></td>
+        <td><%= link_to 'Destroy', content, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Content', new_content_path %>

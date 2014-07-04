@@ -1,0 +1,28 @@
+var newhtml = "<%= escape_javascript(render(:partial => '/events/event_content_rows', :locals => { :content_row => @content } )) %>";
+
+var $newhtml = $(newhtml);
+
+$newhtml.find('.content_row').hide();
+
+$newhtml.find('.content_dropdown, .content_text_field, .content_text').each(function() {
+   var $field = $(this);
+   if ($field.val() == '')
+   {
+       $field.css('background-color', '#FFCCCC');
+   }
+});
+
+$('#ajaxcontentmarker').replaceWith($newhtml);
+
+$newhtml.find('.content_row').fadeIn(200);
+
+<% if @content.type == 'ContentChoice' %>
+  <% if @content.sibling_choices_before_this.any? %>
+    $newhtml.prev().addClass('content_branch_choice');
+  <% end %>
+<% end %>
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

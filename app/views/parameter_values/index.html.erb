@@ -1,0 +1,29 @@
+<h1>Listing parameter_values</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter type</th>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @parameter_values.each do |parameter_value| %>
+      <tr>
+        <td><%= parameter_value.parameter_type_id %></td>
+        <td><%= parameter_value.name %></td>
+        <td><%= link_to 'Show', parameter_value %></td>
+        <td><%= link_to 'Edit', edit_parameter_value_path(parameter_value) %></td>
+        <td><%= link_to 'Destroy', parameter_value, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Parameter value', new_parameter_value_path %>

@@ -1,0 +1,3 @@
+class ContentText < Content
+  
+end

@@ -1,0 +1,22 @@
+$('#event_secondary_prereq_form').html("<%= escape_javascript(render(:partial => '/events/event_secondary_prereq_rows')) %>");
+
+$('#event_secondary_prereq_form').find('.secondary_prereq_event, .secondary_prereq_p').each(function() {
+	$field = $(this);
+	if ($field.val() === '')
+	{
+		$field.css('background-color', '#FFCCCC');
+	}
+});
+
+<% builder = ActionView::Helpers::FormBuilder.new(:event, @event, self, {}) %>
+
+var outcomehtml = "<%= escape_javascript(render(:partial => '/events/event_pre_form', :locals => { :f => builder })) %>";
+
+var $outcomehtml = $(outcomehtml);
+
+$('#prereq_cell').replaceWith($outcomehtml);
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Condition:</strong>
+  <%= @probability.condition %>
+</p>
+
+<p>
+  <strong>Tool1:</strong>
+  <%= @probability.tool1 %>
+</p>
+
+<p>
+  <strong>Equality1:</strong>
+  <%= @probability.equality1 %>
+</p>
+
+<p>
+  <strong>Value1:</strong>
+  <%= @probability.value1 %>
+</p>
+
+<p>
+  <strong>Andor:</strong>
+  <%= @probability.andor %>
+</p>
+
+<p>
+  <strong>Tool2:</strong>
+  <%= @probability.tool2 %>
+</p>
+
+<p>
+  <strong>Equality2:</strong>
+  <%= @probability.equality2 %>
+</p>
+
+<p>
+  <strong>Value2:</strong>
+  <%= @probability.value2 %>
+</p>
+
+<p>
+  <strong>P:</strong>
+  <%= @probability.p %>
+</p>
+
+<%= link_to 'Edit', edit_probability_path(@probability) %> |
+<%= link_to 'Back', probabilities_path %>

@@ -1,0 +1,167 @@
+<%= form_for(@tool) do |f| %>
+  <% if @tool.errors.any? %>
+    <div>
+      <h2><%= pluralize(@tool.errors.count, "error") %> prohibited this tool from being saved:</h2>
+
+      <ul>
+      <% @tool.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+	<table>
+		<tr>
+			<td>
+				Tool:
+			</td>
+			<td>
+				<%= f.text_field :name %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Tooltip:
+			</td>
+			<td>
+				<%= f.text_area :tooltip, :size => "30x5" %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				System:
+			</td>
+			<td>
+				<%= f.check_box :system %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Type:
+			</td>
+			<td>
+				<%= f.collection_select :tooltype, Tool::TOOL_TYPES, :to_s, :to_s, {:include_blank => 'Choose type' } %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Boolean return:
+			</td>
+			<td>
+				<%= f.check_box :booleanreturn %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Character:
+			</td>
+			<td>
+				<%= f.check_box :character %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Location:
+			</td>
+			<td>
+				<%= f.check_box :location %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Trigger:
+			</td>
+			<td>
+				<%= f.check_box :trigger %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Probability:
+			</td>
+			<td>
+				<%= f.check_box :probability %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Content condition:
+			</td>
+			<td>
+				<%= f.check_box :content_condition %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Content effect:
+			</td>
+			<td>
+				<%= f.check_box :content_effect %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Advice:
+			</td>
+			<td>
+				<%= f.check_box :advice %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Is pre-tool:
+			</td>
+			<td>
+				<%= f.check_box :is_pre_tool %>
+			</td>
+		</tr>
+		<% first = true %>
+		<% Tool.where(is_pre_tool: true).delete_if{ |s| s.id == @tool.id }.sort_by{ |s| s.name }.each do |pretool| %>
+			<% if first %>
+				<tr>
+					<td>
+						Included with pre-tools:
+					</td>
+					<td></td>
+				</tr>
+				<% first = false %>
+			<% end %>
+			<tr>
+				<td>
+					<%= pretool.name -%>:
+				</td>
+				<td>
+					<% pre_tool_assoc = PreToolAssociation.where(tool_id: @tool.id).where(pre_tool_id: pretool.id).first %>
+					<% if !pre_tool_assoc.nil? %>
+						<%= f.fields_for :pre_tool_associations, pre_tool_assoc do |ff| %>
+							<%= ff.hidden_field :tool_id %>
+							<%= ff.hidden_field :pre_tool_id %>
+							<%= ff.check_box :enabled, {checked: true} %>
+						<% end %>
+					<% else %>
+						<%= f.fields_for :pre_tool_associations, @pre_tool_association do |ff| %>
+							<%= ff.hidden_field :tool_id %>
+							<%= ff.hidden_field :pre_tool_id, :value => pretool.id %>
+							<%= ff.check_box :enabled %>
+						<% end %>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+		<%= f.fields_for :parameters do |parameter_form| %>
+			<%= parameter_form.hidden_field :order_number %>
+			<tr>
+				<td>
+					Parameter <%= parameter_form.object.order_number %>:
+				</td>
+				<td>
+					<%= parameter_form.collection_select :parameter_type_id, ParameterType.all, :id, :name, {:include_blank => 'Choose type' } %>
+				</td>
+			</tr>
+		<% end %>
+  	</table>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

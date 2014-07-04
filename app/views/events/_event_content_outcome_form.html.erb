@@ -1,0 +1,78 @@
+<div class="content_row">
+	<%= form_for content_outcome, :as => 'content', :remote => true do |f| %>
+		<%= f.hidden_field :id, :class => "content_id_for_ancestry" %>
+		<%= f.hidden_field :parent_id, :class => "content_parent_id" %>
+		<%= image_tag('/assets/outcome_logo.png', :class => 'content_logo') %>
+		<%= link_to image_tag('/assets/red_close_button.png', :class => 'remove_content_button'), content_outcome, method: :delete, :remote => true %>
+		<div class="content_line_bg">
+			<div class="content_left">
+				<%= f.collection_select :condition, Probability::CONDITIONS, :to_s, :to_s, {:include_blank => true }, :class => "content_condition content_field" %>
+				<div class="content_clause_holder">
+					<%- unless content_outcome.condition.blank? -%>				
+						<div class="content_clause">
+							<%= f.fields_for :tool1 do |ff| -%>
+								<%- if !ff.object.pre_tool_id.nil? -%>
+									<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('content_outcome', ff.object, 'pretool', content_outcome.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_outcome', ff.object, 'tool', content_outcome.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- else -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_outcome', ff.object, 'tool', content_outcome.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- end -%>
+								<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+									<%= ff.fields_for :chosen_parameters do |fff| -%>
+										<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+											<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "content_dropdown"}) -%>
+										<%- else -%>
+											<%= fff.text_field :custom_value, {:class => "content_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+										<%- end -%>
+									<%- end -%>
+								<%- end -%>
+							<%- end -%>
+							<%- unless content_outcome.tool1.tool && content_outcome.tool1.tool.booleanreturn -%>
+								<%= f.collection_select :equality1, Probability::EQUALITY_MARKERS_WITH_RANGE, :to_s, :to_s, {:include_blank => true }, :class => "content_dropdown" -%>
+								<%- if content_outcome.equality1 != 'range' -%>
+									<%= f.text_field :value1, :class => "content_text_field", :data => { :oldvalue => content_outcome.value1 } -%>
+								<%- else -%>
+									<%= f.text_field :value1, :class => "content_text_field", :title => '>', :data => { :oldvalue => content_outcome.value1 } -%>-<%= f.text_field :rangevalue, :class => "content_text_field", :title => '<=', :data => { :oldvalue => content_outcome.rangevalue } -%>
+								<%- end -%>
+							<%- end -%>
+							<%- if content_outcome.equality1 != 'range' -%>
+								<%= f.collection_select :andor, Probability::ANDOR, :to_s, :to_s, {:include_blank => true }, :class => "content_andor" -%>
+							<%- end -%>
+						</div>
+					<%- end -%>
+					<% unless content_outcome.andor.blank? %>
+						<div class="content_clause content_clause_second">
+							<%= f.fields_for :tool2 do |ff| %>
+								<%- if !ff.object.pre_tool_id.nil? -%>
+									<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('content_outcome', ff.object, 'pretool', content_outcome.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_outcome', ff.object, 'tool', content_outcome.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- else -%>
+									<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_outcome', ff.object, 'tool', content_outcome.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+								<%- end -%>
+								<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+									<%= ff.fields_for :chosen_parameters do |fff| -%>
+										<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+											<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "content_dropdown"}) -%>
+										<%- else -%>
+											<%= fff.text_field :custom_value, {:class => "content_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+										<%- end -%>
+									<%- end -%>
+								<%- end -%>
+							<% end %>
+							<%- unless content_outcome.tool2.tool && content_outcome.tool2.tool.booleanreturn -%>
+								<%= f.collection_select :equality2, Probability::EQUALITY_MARKERS, :to_s, :to_s, {:include_blank => true }, :class => "content_dropdown" %>
+								<%= f.text_field :value2, :class => "content_text_field", :data => { :oldvalue => content_outcome.value2 } %>
+							<% end %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+			<div class="content_right">
+				<%= link_to image_tag('/assets/text_add_button.png', :class => 'content_add_child_button add_child_text'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentText', :parent_id => content_outcome.id } }, :method => 'post', :remote => true %>
+				<%= link_to image_tag('/assets/choice_add_button.png', :class => 'content_add_child_button add_child_choice'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentChoice', :parent_id => content_outcome.id } }, :method => 'post', :remote => true %>
+				<%= image_tag('/assets/advice_add_button.png', :class => 'content_add_child_button') %>
+				<%= link_to image_tag('/assets/effect_add_button.png', :class => 'content_add_child_button add_child_effect'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentEffect', :parent_id => content_outcome.id } }, :method => 'post', :remote => true %>
+			</div>
+		</div>
+	<% end %>
+</div>

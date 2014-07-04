@@ -1,0 +1,5 @@
+<div class="advice_rows">
+	<% advice_row.children.each do |advice| %>
+		<%= render :partial => '/events/event_advice_rows', :locals => { :advice_row => advice } %>
+	<% end %>
+</div>

@@ -1,0 +1,2 @@
+module PreToolAssociationsHelper
+end

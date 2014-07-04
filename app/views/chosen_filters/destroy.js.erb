@@ -1,0 +1,10 @@
+var filterhtml = "<%= escape_javascript(render(:partial => '/events/event_filter_cell', :locals => { :f => ActionView::Helpers::FormBuilder.new(:event, @event, self, {}) })) %>";
+
+var $filterhtml = $(filterhtml);
+
+$('#filter_cell').replaceWith($filterhtml);
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

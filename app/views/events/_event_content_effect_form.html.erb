@@ -1,0 +1,30 @@
+<div class="content_row">
+	<%= form_for content_effect, :as => 'content', :remote => true do |f| %>
+		<%= f.hidden_field :id, :class => "content_id_for_ancestry" %>
+		<%= f.hidden_field :parent_id, :class => "content_parent_id" %>
+		<%= image_tag('/assets/effect_logo.png', :class => 'content_logo') %>
+		<%= link_to image_tag('/assets/red_close_button.png', :class => 'remove_content_button'), content_effect, method: :delete, :remote => true %>
+		<div class="content_line_bg">
+			<div class="content_left">
+				<%= f.fields_for :tool1 do |ff| %>
+					<% if !ff.object.pre_tool_id.nil? %>
+						<%= ff.select(:pre_tool_id, ApplicationHelper.toolarray_for_selecting('content_effect', ff.object, 'pretool', content_effect.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown first_effect_field"}) %>
+						<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_effect', ff.object, 'tool', content_effect.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown"}) -%>
+					<% else %>
+						<%= ff.select(:tool_id, ApplicationHelper.toolarray_for_selecting('content_effect', ff.object, 'tool', content_effect.root.event), {:include_blank => 'Choose tool' }, {:class => "content_dropdown first_effect_field"}) %>
+					<% end %>
+					<%- unless ff.object.tool.nil? || ff.object.chosen_parameters.empty? -%>
+						<%= ff.fields_for :chosen_parameters do |fff| -%>
+							<%- if fff.object.parameter.parameter_type.is_custom_type -%>
+								<%= fff.select(:parameter_value_id, ParameterValue.where("parameter_type_id = ?", fff.object.parameter.parameter_type.id).collect{|o| [ o.name, o.id, :title => o.tooltip ]}, {:include_blank => 'Choose value'}, {:class => "content_dropdown"}) -%>
+							<%- else -%>
+								<%= fff.text_field :custom_value, {:class => "content_text_field", :data => { :oldvalue => fff.object.custom_value }} -%>
+							<%- end -%>
+						<%- end -%>
+					<%- end -%>
+				<%- end -%>
+			</div>
+			<div class="content_right"><span class="content_right_hidden"><%= link_to image_tag('/assets/effect_add_button.png', :class => 'content_add_sibling_button add_sibling_effect'), { :action => 'create', :controller => 'contents', :content => { :type => 'ContentEffect', :parent_id => content_effect.parent.id } }, :method => 'post', :remote => true %></span></div>
+		</div>
+	<% end %>
+</div>

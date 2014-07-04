@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  chosen_tool_id: 1
+  parameter_value_id: 1
+
+two:
+  chosen_tool_id: 1
+  parameter_value_id: 1

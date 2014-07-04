@@ -1,0 +1,38 @@
+<% if @content.type == 'ContentText' %>
+	var newhtml = "<%= escape_javascript(render(:partial => '/events/event_content_text_form', :locals => { :content_text => @content } )) %>";
+<% elsif @content.type == 'ContentChoice' %>
+	var newhtml = "<%= escape_javascript(render(:partial => '/events/event_content_choice_form', :locals => { :content_choice => @content } )) %>";
+	var advicehtml = "<%= escape_javascript(render :partial => '/events/event_advice_block' ) %>";
+  	var $advicehtml = $(advicehtml);
+  	$advicehtml.find('.advice_dropdown, .advice_text_field, .advice_text').each(function() {
+		var $field = $(this);
+		if ($field.val() == '')
+	   	{
+	    	$field.css('background-color', '#FFCCCC');
+	    }
+  	});
+  	$('#event_advice_block').replaceWith($advicehtml);
+<% elsif @content.type == 'ContentOutcome' %>
+	var newhtml = "<%= escape_javascript(render(:partial => '/events/event_content_outcome_form', :locals => { :content_outcome => @content } )) %>";
+<% elsif @content.type == 'ContentEffect' %>
+	var newhtml = "<%= escape_javascript(render(:partial => '/events/event_content_effect_form', :locals => { :content_effect => @content } )) %>";
+<% end %>
+
+var $newhtml = $(newhtml);
+
+$newhtml.find('.content_dropdown, .content_text_field, .content_text').each(function() {
+   var $field = $(this);
+   if ($field.val() == '')
+   {
+       $field.css('background-color', '#FFCCCC');
+   }
+});
+
+var $contentrow = $("input[value='<%= @content.id %>'].content_id_for_ancestry").closest(".content_row");
+
+$contentrow.replaceWith($newhtml);
+
+$('#infobox').html("<%= escape_javascript(render(:partial => '/events/infobox')) %>");
+
+$('#edit_notices').css('opacity', 1)
+				  .fadeTo(2000, 0);

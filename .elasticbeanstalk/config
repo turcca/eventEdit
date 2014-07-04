@@ -1,0 +1,14 @@
+[global]
+ApplicationName=eventEdit
+AwsCredentialFile=C:\Users\Turkka\.elasticbeanstalk\aws_credential_file
+DevToolsEndpoint=git.elasticbeanstalk.eu-west-1.amazonaws.com
+EnvironmentName=eventEdit-env
+EnvironmentTier=WebServer::Standard::1.0
+EnvironmentType=SingleInstance
+InstanceProfileName=aws-elasticbeanstalk-ec2-role
+OptionSettingFile=E:\Projects\github\eventEdit\.elasticbeanstalk\optionsettings.eventEdit-env
+RdsEnabled=No
+Region=eu-west-1
+ServiceEndpoint=https://elasticbeanstalk.eu-west-1.amazonaws.com
+SolutionStack=64bit Amazon Linux 2014.03 v1.0.5 running Ruby 2.0 (Puma)
+

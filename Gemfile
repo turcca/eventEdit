@@ -50,4 +50,5 @@ gem 'gon'
 gem 'ancestry', :git => "git://github.com/stefankroes/ancestry.git", :branch => "master"
 gem 'devise'
 gem "d3-rails"
-gem 'jscolor-rails'
+gem 'jscolor-rails' 
+gem 'capistrano', '~> 3.2.0'

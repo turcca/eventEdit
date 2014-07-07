@@ -35,8 +35,13 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.1)
     atomic (1.1.14)
+    bcrypt-ruby (3.1.2-x64-mingw32)
     bcrypt-ruby (3.1.2-x86-mingw32)
     builder (3.1.4)
+    capistrano (3.2.1)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (~> 1.3)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -44,6 +49,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    colorize (0.7.3)
     d3-rails (3.3.7)
       railties (>= 3.1)
     devise (3.2.2)
@@ -75,6 +81,9 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.8.2)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.9.1)
     orm_adapter (0.5.0)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -113,7 +122,12 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    sqlite3 (1.3.8-x64-mingw32)
     sqlite3 (1.3.8-x86-mingw32)
+    sshkit (1.5.1)
+      colorize
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     thor (0.18.1)
     thread_safe (0.1.3)
       atomic
@@ -129,10 +143,12 @@ GEM
       rack (>= 1.0)
 
 PLATFORMS
+  x64-mingw32
   x86-mingw32
 
 DEPENDENCIES
   ancestry!
+  capistrano (~> 3.2.0)
   coffee-rails (~> 4.0.0)
   d3-rails
   devise
